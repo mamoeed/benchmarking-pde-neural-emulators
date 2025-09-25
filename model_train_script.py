@@ -55,10 +55,11 @@ def main():
     model_size = args.model_size
     num_epochs = args.num_epochs
     batch_size = args.batch_size
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
-    print(f"Running with pde_model: {pde_model}, model_arch: {model_arch}, model_size: {model_size}, num_epochs: {num_epochs}, batch_size: {batch_size}, seeds: {seeds}")
+    print(f"Running with pde_model: {pde_model}, model_arch: {model_arch}, model_size: {model_size}, num_epochs: {num_epochs}, batch_size: {batch_size}, seeds: {seeds}, device: {device}")
 
-    train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds)
+    train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds, device)
 
 main()
 

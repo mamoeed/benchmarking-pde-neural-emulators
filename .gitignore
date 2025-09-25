@@ -9,3 +9,4 @@ result_visualisations.ipynb
 train-script-generic-DEV.ipynb
 datasets/*
 !datasets/.gitkeep
+results_og

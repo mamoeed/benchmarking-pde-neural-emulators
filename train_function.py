@@ -31,7 +31,7 @@ def set_seeds(seed=42):
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True" 
 
-def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds):
+def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds, device):
     # num_epochs = 2
     # batch_size = 5
     
@@ -93,17 +93,17 @@ def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds
         for l in lrs:
             set_seeds(seed)
             if model_arch == "PDET":
-                model = create_PDET(model_size,in_channels = input_channels,out_channels = input_channels).to("cuda")
+                model = create_PDET(model_size,in_channels = input_channels,out_channels = input_channels).to(device)
             elif model_arch == "CNN":
-                model = create_CNN(model_size, inp_depth=input_channels).to("cuda")
+                model = create_CNN(model_size, inp_depth=input_channels).to(device)
             elif model_arch == "ResNet":
-                model = create_ResNet(model_size, inp_depth=input_channels).to("cuda")
+                model = create_ResNet(model_size, inp_depth=input_channels).to(device)
             elif model_arch == "UNet":
-                model = create_UNet(model_size,in_channels=input_channels, out_channels=input_channels).to("cuda")
+                model = create_UNet(model_size,in_channels=input_channels, out_channels=input_channels).to(device)
             elif model_arch == "ViT":
-                model = create_VisionTransformer(model_size,in_channels = input_channels, out_channels = input_channels).to("cuda")
+                model = create_VisionTransformer(model_size,in_channels = input_channels, out_channels = input_channels).to(device)
             elif model_arch == "FNO":
-                model = create_FNO(model_size,in_channels = input_channels, out_channels = input_channels).to("cuda")
+                model = create_FNO(model_size,in_channels = input_channels, out_channels = input_channels).to(device)
             else:
                 print("model not defined")
             
@@ -130,7 +130,7 @@ def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds
             for epoch in tqdm(range(int(num_epochs))):
                 model.train()
                 for inputs, targets in dataloader:
-                    inputs, targets = inputs.to("cuda"), targets.to("cuda")
+                    inputs, targets = inputs.to(device), targets.to(device)
                     
                     optimizer.zero_grad()
                     if model_arch == "PDET":
@@ -150,7 +150,7 @@ def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds
                     total_data_size = 0
                     # calculate loss somehow:
                     for inputs, targets in val_dataloader:
-                        inputs, targets = inputs.to("cuda"), targets.to("cuda")
+                        inputs, targets = inputs.to(device), targets.to(device)
                         if model_arch == "PDET":
                             outputs = model(inputs, None, None)
                         else:
@@ -184,9 +184,9 @@ def train_model(pde_model, model_arch, model_size, num_epochs, batch_size, seeds
                     with torch.no_grad():
                         # current_state = torch.cat((current_state,torch.zeros_like(current_state)),dim=1)
                         if model_arch == "PDET":
-                            current_state = model(current_state.to("cuda"),None,None)[:,:,:,:]
+                            current_state = model(current_state.to(device),None,None)[:,:,:,:]
                         else:
-                            current_state = model(current_state.to("cuda"))[:,:,:,:]
+                            current_state = model(current_state.to(device))[:,:,:,:]
                     single_rollout.append(current_state.cpu())
                 
                 # Stack the 100 timesteps for this item

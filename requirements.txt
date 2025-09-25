@@ -1,0 +1,15 @@
+# Python 3.12.3
+matplotlib
+torch
+torchvision
+torchaudio
+tqdm
+numpy
+pandas
+seaborn
+scikit-learn
+scipy
+h5py
+pickle-mixin
+neuraloperator
+pdetransformer
