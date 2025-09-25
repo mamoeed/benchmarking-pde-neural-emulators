@@ -1,0 +1,11 @@
+.ipynb_checkpoints/
+__pycache__/
+generate_datasets-2D.ipynb
+logs/*
+!logs/.gitkeep
+results/
+testing-model-files.ipynb
+result_visualisations.ipynb
+train-script-generic-DEV.ipynb
+datasets/*
+!datasets/.gitkeep
