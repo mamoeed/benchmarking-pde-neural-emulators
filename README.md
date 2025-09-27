@@ -14,6 +14,11 @@ Recommended python version is 3.12.3. All dependencies are listed in `requiremen
 ```
 pip install -r requirements.txt
 ```
+Next download data from hugging face using:
+
+```
+python download_data.py
+```
 
 Model training can be run using the following command:
 ```
